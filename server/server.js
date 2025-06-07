@@ -7,6 +7,9 @@ import postRouter from './Routes/Post.route.js'
 import generatedImageRouter from './Routes/GenerateAIImage.route.js'
 import userRouter from './Routes/User.route.js'
 import cookieParser from 'cookie-parser'
+import './strategies/discord_strategy.js'
+import passport from 'passport'
+import session from 'express-session'
 
 dotenv.config() 
 
@@ -14,10 +17,23 @@ const app = express()
 
 const PORT = process.env.PORT || 5000
 
-app.use(cookieParser())
+
+app.use(cookieParser("secret"))
 app.use(cors({origin: "http://localhost:3000", credentials: true}))
 app.use(express.json({ limit: '50mb' }))
 app.use(express.urlencoded({extended: true}))
+app.use(session({
+    secret: "dungDepTrai",
+    saveUninitialized: false,
+    resave: false,
+    cookie: {
+        maxAge: 60000*60*24,
+        secure: false,
+        httpOnly: true,
+    }
+}))
+app.use(passport.initialize())
+app.use(passport.session())
 
 app.use((err, req, res, next) => {
     const status = err.status || 500

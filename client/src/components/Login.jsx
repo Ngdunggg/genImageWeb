@@ -1,6 +1,7 @@
 import React from "react"
 import { useAppContext } from "../context/AppContext";
 import { loginOrRegister } from "../api";
+import icons from "../assets/icons";
 
 const Login = () => {
     const { setShowUserLogin, setUser, navigate, fetchUser } = useAppContext()
@@ -26,6 +27,10 @@ const Login = () => {
         }
     }
 
+    const loginWithDiscord = async () => {
+        window.location.href = "http://localhost:5000/api/user/discord"
+    }
+
     return (
         <div onClick={() => setShowUserLogin(false)} className="fixed top-0 bottom-0 right-0 left-0 z-30 flex items-center text-sm text-gray-600 bg-black/50">
             <form 
@@ -39,16 +44,16 @@ const Login = () => {
                 {state === "register" && (
                     <div className="w-full text-white">
                         <p>Name</p>
-                        <input onChange={(e) => setName(e.target.value)} value={name} placeholder="Your name" className="bg-bgLight-dark border border-white rounded-3xl w-full p-2 mt-1 outline-primary" type="text" required />
+                        <input onChange={(e) => setName(e.target.value)} value={name} placeholder="Your name" className="bg-bgLight-dark border border-white rounded-3xl w-full p-2 mt-1 outline-primary" type="text"  />
                     </div>
                 )}
                 <div className="w-full text-white">
                     <p>Email</p>
-                    <input onChange={(e) => setEmail(e.target.value)} value={email} placeholder="Your email" className="bg-bgLight-dark border border-white rounded-3xl w-full p-2 mt-1 outline-primary" type="email" required />
+                    <input onChange={(e) => setEmail(e.target.value)} value={email} placeholder="Your email" className="bg-bgLight-dark border border-white rounded-3xl w-full p-2 mt-1 outline-primary" type="email"  />
                 </div>
                 <div className="w-full text-white">
                     <p>Password</p>
-                    <input onChange={(e) => setPassword(e.target.value)} value={password} placeholder="********" className="bg-bgLight-dark border border-white rounded-3xl w-full p-2 mt-1 outline-primary" type="password" required />
+                    <input onChange={(e) => setPassword(e.target.value)} value={password} placeholder="********" className="bg-bgLight-dark border border-white rounded-3xl w-full p-2 mt-1 outline-primary" type="password"  />
                 </div>
                 {state === "register" ? (
                     <p>
@@ -59,6 +64,10 @@ const Login = () => {
                         Create an account? <span onClick={() => setState("register")} className="text-primary cursor-pointer">click here</span>
                     </p>
                 )}
+                <button onClick={loginWithDiscord} className="flex w-full flex-col justify-center items-center gap-2">
+                    <img src={icons.discord} />
+                    Signin with Discord 
+                </button>
                 <button className="bg-primary hover:bg-primary/75 transition-all text-white w-full py-2 rounded-3xl cursor-pointer">
                     {state === "register" ? "Create Account" : "Login"}
                 </button>

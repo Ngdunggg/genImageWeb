@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import SearchBar from "../components/SearchBar";
 import ImageCart from "../components/ImageCart";
 import Masonry from "react-masonry-css";
 import { useAppContext } from "../context/AppContext";
 
 const Home = () => {
-  const { navigate, setSearchTerm, searchTerm, post } = useAppContext();
+  const { navigate, setSearchTerm, searchTerm, post, fetchUser } = useAppContext();
 
   // Cấu hình số cột dựa trên kích thước màn hình
   const breakpointColumnsObj = {
@@ -14,6 +14,10 @@ const Home = () => {
     768: 2, // 2 cột trên màn hình nhỏ (sm)
     640: 1, // 1 cột trên màn hình rất nhỏ (mobile)
   };
+
+  useEffect(() => {
+    fetchUser()
+  }, [])
 
   return (
     <div className="flex flex-col items-center gap-5 py-2 md:py-4 lg:py-8 xl:py-16 pb-12">

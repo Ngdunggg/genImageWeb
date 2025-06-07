@@ -61,7 +61,7 @@ const Profile = () => {
         
 
         getData()
-    }, [user?._id, userId])
+    }, [user?._id, userId, user])
 
     useEffect(() => {
         const getTotalLike = () => {
@@ -76,14 +76,14 @@ const Profile = () => {
 
     return (
         <div className="flex flex-col items-center py-20 gap-10 pb-20">
-            <div className="flex flex-1 items-center max-w-[1200px] w-full px-[0px] md:px-[100px] lg:px-[150px] gap-[100px] pb-10 border-b">
+            <div className="flex flex-1 flex-col sm:flex-row items-center max-w-[1200px] w-full px-[0px] md:px-[100px] lg:px-[150px] gap-[100px] pb-10 border-b">
                 <img src={userProfile?.avatar || "https://static.vecteezy.com/system/resources/previews/009/734/564/original/default-avatar-profile-icon-of-social-media-user-vector.jpg"} alt="tác giả" className="w-[150px] h-[150px] rounded-full" />
 
                 <div className="flex flex-1 flex-col py-2 gap-2 text-lg">
-                    <div className="flex gap-20">
+                    <div className="flex flex-1 gap-6 md:gap-12 lg:gap-20">
                         <p className="text-xl">{userProfile?.name}</p>
                         {userId === user?._id && (
-                            <button onClick={() => setShowEditProfile(true)} className="bg-zinc-700 w-fit px-4 py-1 items-center rounded-full">
+                            <button onClick={() => setShowEditProfile(true)} className="bg-zinc-700 w-fit px-4 py-1 items-center rounded-full text-sm ">
                                 <EditRounded style={{ fontSize: "20px" }} />
                                 Edit profile
                             </button>

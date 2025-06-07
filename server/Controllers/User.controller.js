@@ -131,3 +131,24 @@ export const updateProfile = async (req, res)=>{
         res.json({success: false, message: err.message})
     }
 }
+
+export const oauthDiscord = async (req, res) => {
+    try {
+        if(!req.user){
+            return res.json({success:false, message: "Something was error"})
+        }
+
+        const token = jwt.sign({id: req.user.id}, process.env.JWT_SECRET, {expiresIn: '7d'})
+
+        res.cookie('token', token, {
+            httpOnly: true,  // Ngăn Javascript truy cập vào cookie
+            secure: process.env.NODE_ENV === "production",  // sử dụng secure cookie trong sản xuất
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+            maxAge: 7*24*60*60*1000,  // thời hạn của cookie
+        })
+
+        return res.redirect('http://localhost:3000')
+    } catch(err){
+        console.log(err)
+    }
+}

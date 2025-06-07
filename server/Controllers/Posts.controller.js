@@ -43,8 +43,6 @@ export const createPost = async (req, res, next) => {
 export const toggleLikePost = async (req, res) =>  {
     try {
         const {postId} = req.params
-        console.log(postId)
-        console.log(req.userId)
         const post = await Post.findById(postId)
 
         if (!post) {

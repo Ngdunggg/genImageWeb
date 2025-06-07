@@ -5,8 +5,8 @@ import { updateProfile } from "../api";
 
 const EditProfile = () => {
     const { setShowEditProfile, user, setUser } = useAppContext();
-    const [name, setName] = useState("");
-    const [bio, setBio] = useState(""); 
+    const [name, setName] = useState(user?.name || "");
+    const [bio, setBio] = useState(user?.bio || ""); 
     const [avatar, setAvatar] = useState(user?.avatar || "https://static.vecteezy.com/system/resources/previews/009/734/564/original/default-avatar-profile-icon-of-social-media-user-vector.jpg"); // State cho ảnh đại diện
     const [avatarFile, setAvatarFile] = useState(null); 
 

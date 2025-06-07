@@ -12,7 +12,10 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true
+        required: function () {
+            return this.authProvider === 'local' 
+        },
+        default: null
     },
     avatar: {
         type: String,
@@ -20,6 +23,15 @@ const userSchema = new mongoose.Schema({
     },
     bio: {
         type: String,
+    },
+    authProvider: {
+        type: String,
+        enum: ['local', 'discord'],
+        default: 'local'
+    },
+    providerId: {
+        type: String,
+        default: null
     }
 }, {timestamps: true})
 

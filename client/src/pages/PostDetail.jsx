@@ -8,7 +8,7 @@ import { getPostById, getUserById, toggleLikePost } from "../api";
 
 const PostDetail = () => {
     const { id } = useParams();
-    const {user, navigate} = useAppContext()
+    const {user, navigate, setShowListLike, setUserLiked} = useAppContext()
     const [userInfo, setUserInfo] = useState(null)
     const [isLiked, setIsLiked] = useState(false);
     const [likeCount, setLikeCount] = useState()
@@ -25,41 +25,8 @@ const PostDetail = () => {
         }
     }
 
-    useEffect(() =>  {
-        const fetchInfo = async () =>{
-            try {
-                if (Post?.userId) {
-                    const { data } = await getUserById(Post?.userId)
-                    if (data.success) {
-                        setUserInfo(data.data)
-                    }
-                } 
-            } catch(err) {
-                console.log(err)
-            }
-        }
-        fetchPost()
-        fetchInfo()
-    }, [Post?.userId])
-
-    useEffect(() => {
-        if(user?._id && Post){
-            const hasLike =  Post.likes
-            if(hasLike.length > 0 && hasLike.includes(user?._id)) {
-                setIsLiked(true)
-            } else{
-                setIsLiked(false)
-            }
-        }
-
-        if (Post) {
-            setLikeCount(Post?.likes.length)
-        }
-
-    }, [Post?.likes])
-
     const handleLike = async () => {
-        // setIsLiked(!isLiked);
+        
         console.log(Post?._id)
         try {
             const {data} = await toggleLikePost(Post?._id)
@@ -75,6 +42,55 @@ const PostDetail = () => {
     const handleBack = () => {
         navigate(-1);
     };
+    
+    const handleShowLiked = async () => {
+        try {
+            const likedUserId = Post?.likes || []
+
+            const userInfo = await Promise.all(
+                likedUserId.map(async (userId) => {
+                    const {data} = await getUserById(userId)
+                    return data.data
+                })
+            )
+
+            setUserLiked(userInfo)
+            setShowListLike(true)
+        } catch(err) {
+            console.log(err)
+        }
+    } 
+
+    useEffect(() =>  {
+        const fetchInfo = async () =>{
+            try {
+                if (Post?.userId) {
+                    const { data } = await getUserById(Post?.userId)
+                    if (data.success) {
+                        setUserInfo(data.data)
+                    }
+                } 
+            } catch(err) {
+                console.log(err)
+            }
+        }
+
+        if(user?._id && Post){
+            const hasLike =  Post?.likes
+            if(hasLike.length > 0 && hasLike.includes(user?._id)) {
+                setIsLiked(true)
+            } else{
+                setIsLiked(false)
+            }
+        }
+
+        if (Post) {
+            setLikeCount(Post?.likes.length)
+        }
+
+        fetchPost()
+        fetchInfo()
+    }, [Post?.userId, Post?.likes])
 
     return (
         <div className="min-h-screen text-white">
@@ -107,7 +123,7 @@ const PostDetail = () => {
                             className="flex items-center gap-2 text-blue-500 hover:text-blue-700 transition-colors duration-200"
                         >
                             {isLiked ? <FavoriteOutlined /> : <FavoriteBorderRounded />}
-                            <span>{likeCount ? likeCount :  0}</span>
+                            <span onClick={(e) => { e.stopPropagation(); handleShowLiked()}}>{likeCount ? likeCount :  0}</span>
                         </button>
                         <button onClick={() => FileSaver.saveAs(Post?.photo, "dowload.jpg")} className="flex items-center gap-2 text-green-500 hover:text-green-700 transition-colors duration-200">
                             <DownloadRounded />

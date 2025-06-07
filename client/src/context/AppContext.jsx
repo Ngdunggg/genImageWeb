@@ -9,8 +9,10 @@ export const AppContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [showUserLogin, setShowUserLogin] = useState(false);
   const [showEditProfile, setShowEditProfile] = useState(false);
+  const [showListLike, setShowListLike] = useState(false)
   const [searchTerm, setSearchTerm] = useState("");
   const [post, setPost] = useState([]);
+  const [userLiked, setUserLiked] = useState([])
 
   const fetchUser = async () => {
     try {
@@ -69,7 +71,11 @@ export const AppContextProvider = ({ children }) => {
     setSearchTerm,
     post,
     updatePost,
-    fetchUser
+    fetchUser,
+    showListLike,
+    setShowListLike,
+    userLiked,
+    setUserLiked
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

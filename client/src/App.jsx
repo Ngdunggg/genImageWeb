@@ -7,9 +7,10 @@ import Login from "./components/Login";
 import Profile from "./pages/Profile";
 import EditProfile from "./components/EditProfile";
 import PostDetail from "./pages/PostDetail";
+import ListUserLiked from "./components/ListUserLiked";
 
 function App() {
-  const { showUserLogin, showEditProfile, user } = useAppContext();
+  const { showUserLogin, showEditProfile, showListLike, user } = useAppContext();
 
   return (
     <div className="w-screen h-screen flex bg-bg-dark text-text_primary-dark overflow-hidden transition-all">
@@ -17,6 +18,8 @@ function App() {
         <Navbar />
         {showUserLogin && <Login />}
         {showEditProfile && <EditProfile/>}
+        {showListLike && <ListUserLiked/>}
+
         <div className="flex-1 overflow-y-auto">
           <Routes>
             <Route path="/" element={<Home />} />
