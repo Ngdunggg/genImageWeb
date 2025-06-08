@@ -28,7 +28,7 @@ const Login = () => {
     }
 
     const loginWithDiscord = async () => {
-        window.location.href = "http://localhost:5000/api/user/discord"
+        window.location.href = process.env.REACT_APP_OAUTH_URL
     }
 
     return (
