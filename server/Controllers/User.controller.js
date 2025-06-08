@@ -147,7 +147,7 @@ export const oauthDiscord = async (req, res) => {
             maxAge: 7*24*60*60*1000,  // thời hạn của cookie
         })
 
-        return res.redirect('http://localhost:3000')
+        return res.redirect(process.env.CLIENT_URL)
     } catch(err){
         console.log(err)
     }
